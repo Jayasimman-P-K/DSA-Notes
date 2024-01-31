@@ -1,6 +1,6 @@
 # Arrays Solved Problems
 
-### 1752. Check if Array Is Sorted and Rotated
+## 1752. Check if Array Is Sorted and Rotated
 
 Given an array nums, return true if the array was originally sorted in non-decreasing order, then rotated some number of positions (including zero). Otherwise, return false.
 
@@ -54,7 +54,7 @@ class Solution {
 }
 ```
 
-### 26. Remove Duplicates from Sorted Array
+## 26. Remove Duplicates from Sorted Array
 
 Given an integer array nums sorted in non-decreasing order, remove the duplicates in-place such that each unique element appears only once. The relative order of the elements should be kept the same. Then return the number of unique elements in nums.
 
@@ -120,7 +120,7 @@ class Solution {
 }
 ```
 
-### 189. Rotate Array
+## 189. Rotate Array
 
 Given an integer array nums, rotate the array to the right by k steps, where k is non-negative. Leetcode [Link](https://leetcode.com/problems/rotate-array/description/).
 
@@ -175,7 +175,7 @@ class Solution {
 }
 ```
 
-### 1. Two Sum
+## 1. Two Sum
 
 Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
 
@@ -225,7 +225,7 @@ class Solution {
 }
 ```
 
-### 167. Two Sum II - Input Array Is Sorted
+## 167. Two Sum II - Input Array Is Sorted
 
 Given a 1-indexed array of integers numbers that is already sorted in non-decreasing order, find two numbers such that they add up to a specific target number. Let these two numbers be `numbers[index1]` and `numbers[index2] where 1 <= index1 < index2 <= numbers.length.`
 
@@ -280,7 +280,7 @@ class Solution {
 }
 ```
 
-### 283. Move Zeroes
+## 283. Move Zeroes
 
 Given an integer array nums, move all 0's to the end of it while maintaining the relative order of the non-zero elements.
 
@@ -319,7 +319,7 @@ class Solution {
 }
 ```
 
-### 75. Sort Colors
+## 75. Sort Colors
 
 Given an array nums with n objects colored red, white, or blue, sort them in-place so that objects of the same color are adjacent, with the colors in the order red, white, and blue.
 
@@ -372,7 +372,7 @@ class Solution {
 }
 ```
 
-### 485. Max Consecutive Ones
+## 485. Max Consecutive Ones
 
 Given a binary array nums, return the maximum number of consecutive `1's` in the array. Leetcode [Link](https://leetcode.com/problems/max-consecutive-ones/).
 
@@ -411,7 +411,7 @@ class Solution {
 }
 ```
 
-### 136. Single Number
+## 136. Single Number
 
 Given a non-empty array of integers nums, every element appears twice except for one. Find that single one.
 
@@ -451,7 +451,7 @@ class Solution {
 }
 ```
 
-### 169. Majority Element
+## 169. Majority Element
 
 Given an array nums of size n, return the majority element.
 
@@ -498,7 +498,7 @@ class Solution {
 }
 ```
 
-### 53. Maximum Subarray
+## 53. Maximum Subarray
 
 Given an integer array nums, find the subarray with the largest sum, and return its sum. Leetcode [Link](https://leetcode.com/problems/maximum-subarray/).
 
@@ -549,7 +549,7 @@ class Solution {
 }
 ```
 
-### 121. Best Time to Buy and Sell Stock
+## 121. Best Time to Buy and Sell Stock
 
 You are given an array prices where `prices[i]` is the price of a given stock on the ith day.
 
@@ -591,7 +591,7 @@ class Solution {
 }
 ```
 
-### 2149. Rearrange Array Elements by Sign
+## 2149. Rearrange Array Elements by Sign
 
 You are given a `0-indexed` integer array nums of even length consisting of an equal number of positive and negative integers.
 
@@ -647,7 +647,7 @@ class Solution {
 }
 ```
 
-### 31. Next Permutation
+## 31. Next Permutation
 
 A permutation of an array of integers is an arrangement of its members into a sequence or linear order.
 
@@ -731,7 +731,7 @@ class Solution {
 }
 ```
 
-### 128. Longest Consecutive Sequence
+## 128. Longest Consecutive Sequence
 
 Given an unsorted array of integers `nums`, return the length of the longest consecutive elements sequence.
 
@@ -781,7 +781,7 @@ class Solution {
 }
 ```
 
-### 73. Set Matrix Zeroes
+## 73. Set Matrix Zeroes
 
 Given an `m x n` integer matrix matrix, if an element is 0, set its entire row and column to 0's.
 
@@ -838,7 +838,7 @@ class Solution {
 }
 ```
 
-### 48. Rotate Image
+## 48. Rotate Image
 
 You are given an `n x n` 2D matrix representing an image, rotate the image by 90 degrees (clockwise).
 
@@ -905,7 +905,7 @@ class Solution {
 }
 ```
 
-### 54. Spiral Matrix
+## 54. Spiral Matrix
 
 Given an `m x n` matrix, return all elements of the matrix in spiral order. Leetcode [Link](https://leetcode.com/problems/spiral-matrix/description/).
 
@@ -975,7 +975,7 @@ class Solution {
 }
 ```
 
-### 118. Pascal's Triangle
+## 118. Pascal's Triangle
 
 Given an integer `numRows`, return the first numRows of Pascal's triangle. Leetcode [Link](https://leetcode.com/problems/pascals-triangle/description/).
 
@@ -1024,7 +1024,7 @@ class Solution {
 }
 ```
 
-### 15. 3Sum
+## 15. 3Sum
 
 Given an integer array nums, return all the triplets `[nums[i], nums[j], nums[k]]` such that `i != j, i != k, and j != k`, and `nums[i] + nums[j] + nums[k] == 0`.
 
@@ -1101,7 +1101,7 @@ class Solution {
 }
 ```
 
-### 18. 4Sum
+## 18. 4Sum
 
 Given an array nums of n integers, return an array of all the unique quadruplets `[nums[a], nums[b], nums[c], nums[d]] `such that:
 
@@ -1171,7 +1171,7 @@ class Solution {
 }
 ```
 
-### 88. Merge Sorted Array
+## 88. Merge Sorted Array
 
 You are given two integer arrays nums1 and nums2, sorted in non-decreasing order, and two integers m and n, representing the number of elements in nums1 and nums2 respectively.
 

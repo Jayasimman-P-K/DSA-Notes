@@ -13,6 +13,7 @@ public class JavaNotes {
         Geeks.put("Platform", "Geeks For Geeks");
         Geeks.put("Code", "HashMap");
         Geeks.put("Learn", "More");
+        Geeks.put("Learn", "More");
 
         for (String i: Geeks.keySet()) {
             System.out.println(i + ": " + Geeks.get(i));

@@ -267,3 +267,271 @@ class Solution {
     }
 }
 ```
+
+## 19. Remove Nth Node From End of List
+
+Given the head of a linked list, remove the nth node from the end of the list and return its head. Leetcode [Link](https://leetcode.com/problems/remove-nth-node-from-end-of-list/description/).
+
+#### Example 1:
+
+![img](https://assets.leetcode.com/uploads/2020/10/03/remove_ex1.jpg)
+
+_Input:_ head = `[1,2,3,4,5]`, n = 2
+_Output:_ `[1,2,3,5]`
+
+#### Example 2:
+
+_Input:_ head = `[1]`, n = 1
+_Output:_ `[]`
+
+#### Example 3:
+
+_Input:_ head = `[1,2]`, n = 1
+_Output:_ `[1]`
+
+**Constraints:**
+
+- The number of nodes in the list is sz.
+- 1 <= sz <= 30
+- 0 <= Node.val <= 100
+- 1 <= n <= sz
+
+```java
+
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        ListNode fast = head;
+        for (int i = 0; i < n; i++) fast = fast.next;
+        if (fast == null) return head.next;
+        ListNode slow = head;
+        while (fast.next != null) {
+            fast = fast.next;
+            slow = slow.next;
+        }
+        slow.next = slow.next.next;
+        return head;
+    }
+}
+```
+
+## 206. Reverse Linked List
+
+Given the head of a singly linked list, reverse the list, and return the reversed list. Leetcode [Link](https://leetcode.com/problems/reverse-linked-list/description/).
+
+#### Example 1:
+
+![img1](https://assets.leetcode.com/uploads/2021/02/19/rev1ex1.jpg)
+Input: head = `[1,2,3,4,5]`
+Output: `[5,4,3,2,1]`
+
+#### Example 2:
+
+![img2](https://assets.leetcode.com/uploads/2021/02/19/rev1ex2.jpg)
+Input: head = `[1,2]`
+Output: `[2,1]`
+
+#### Example 3:
+
+Input: head = `[]`
+Output: `[]`
+
+**Constraints:**
+
+- The number of nodes in the list is the range `[0, 5000]`.
+- -5000 <= Node.val <= 5000
+
+```java
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+
+// Itereative solution
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        ListNode prev = null;
+        ListNode temp = head;
+        while (temp != null) {
+            ListNode front = temp.next;
+            temp.next = prev;
+            prev = temp;
+            temp = front;
+        }
+        return prev;
+    }
+}
+```
+
+## 876. Middle of the Linked List
+
+Given the head of a singly linked list, return the middle node of the linked list.
+
+If there are two middle nodes, return the second middle node. Leetcode [Link](https://leetcode.com/problems/middle-of-the-linked-list/description/).
+
+#### Example 1:
+
+![img1](https://assets.leetcode.com/uploads/2021/07/23/lc-midlist1.jpg)
+
+_Input:_ head = `[1,2,3,4,5]`
+_Output:_ `[3,4,5]`
+**Explanation:** The middle node of the list is node 3.
+
+#### Example 2:
+
+![img2](https://assets.leetcode.com/uploads/2021/07/23/lc-midlist2.jpg)
+
+_Input:_ head = `[1,2,3,4,5,6]`
+_Output:_ `[4,5,6]`
+**Explanation:** Since the list has two middle nodes with values 3 and 4, we return the second one.
+
+**Constraints:**
+
+- The number of nodes in the list is in the range `[1, 100]`.
+- 1 <= Node.val <= 100
+
+```java
+
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode middleNode(ListNode head) {
+        ListNode fast = head, slow = head;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return slow;
+    }
+}
+```
+
+## 234. Palindrome Linked List
+
+Given the head of a singly linked list, return true if it is a
+palindrome or false otherwise. Leetcode [Link](https://leetcode.com/problems/palindrome-linked-list/description/).
+
+#### Example 1:
+
+![img1](https://assets.leetcode.com/uploads/2021/03/03/pal1linked-list.jpg)
+
+_Input:_ head = `[1,2,2,1]`
+_Output:_ true
+
+#### Example 2:
+
+![img2](https://assets.leetcode.com/uploads/2021/03/03/pal2linked-list.jpg)
+
+_Input:_ head = `[1,2]`
+_Output:_ false
+
+**Constraints:**
+
+- The number of nodes in the list is in the range `[1, 105]`.
+- 0 <= Node.val <= 9
+
+```java
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+// class Solution {
+//     public boolean isPalindrome(ListNode head) {
+//         if (head == null || head.next == null) return true;
+//         ListNode slow = head, fast = head;
+//         while (fast.next != null && fast.next.next != null) {
+//             slow = slow.next;
+//             fast = fast.next.next;
+//         }
+//         ListNode newNode = reverseLL(slow.next);
+//         ListNode first = head, second = newNode;
+//         while (second != null) {
+//             if (first.val != second.val) {
+//                 // reverseLL(newNode);
+//                 return false;
+//             }
+//             first = first.next;
+//             second = second.next;
+//         }
+//         // reverseLL(newNode);
+//         return true;
+//     }
+
+//     public static ListNode reverseLL(ListNode head) {
+//         ListNode prev = null, temp = head;
+//         while (temp != null) {
+//             ListNode front = temp.next;
+//             temp.next = prev;
+//             prev = temp;
+//             temp = front;
+//         }
+//         return prev;
+//     }
+// }
+
+class Solution {
+    public boolean isPalindrome(ListNode head) {
+        // find the middle element
+        ListNode slow = head ;
+        ListNode fast = head ;
+        while(fast!=null && fast.next!=null){
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        // reverse the second half of an linked list
+        ListNode prev = null ;
+        ListNode curr = slow ;
+        while(curr!=null){
+            ListNode later  = curr.next;
+            curr.next = prev;
+            prev=curr;
+            curr=later ;
+        }
+
+        // compare each element in the first half and second half
+        ListNode first = head ;
+        ListNode second = prev;
+        while(second!=null){
+            if(first.val!=second.val){
+                return false ;
+            }
+            first=first.next;
+            second=second.next;
+        }
+        return true;
+    }
+}
+```

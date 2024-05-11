@@ -182,10 +182,13 @@ _Output:_ `[8,9,9,9,0,0,0,1]`
  */
 class Solution {
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        // dummy node approach
         ListNode dummyNode = new ListNode(-1);
         ListNode curr = dummyNode;
+
         ListNode temp1 = l1, temp2 = l2;
         int carry = 0;
+
         while (temp1 != null || temp2 != null) {
             int sum = carry;
             if (temp1 != null) sum += temp1.val;
@@ -309,6 +312,7 @@ _Output:_ `[1]`
  *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
  * }
  */
+
 class Solution {
     public ListNode removeNthFromEnd(ListNode head, int n) {
         ListNode fast = head;

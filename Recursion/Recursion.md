@@ -169,6 +169,8 @@ class Solution {
 }
 ```
 
+k
+
 ## 40. Combination Sum II
 
 Given a collection of candidate numbers (candidates) and a target number (target), find all unique combinations in candidates where the candidate numbers sum to target.
@@ -415,11 +417,11 @@ class Solution {
 
     public List<List<String>> solveNQueens(int n) {
         char[][] board = new char[n][n];
-        for (int i = 0; i < n; i++)
+        for (int i = 0; i < n; i++){
             for (int j = 0; j < n; j++){
                 board[i][j] = '.';
             }
-
+        }
 
         int[] leftRow = new int[n];
         int[] upperDiagonal = new int[2*n - 1];
@@ -526,8 +528,7 @@ _Output:_
 
 public class Solution {
     public void solveSudoku(char[][] board) {
-        if(board == null || board.length == 0)
-            return;
+        if(board == null || board.length == 0) return;
         solve(board);
     }
 
@@ -538,14 +539,10 @@ public class Solution {
                     for(char c = '1'; c <= '9'; c++){//trial. Try 1 through 9
                         if(isValid(board, i, j, c)){
                             board[i][j] = c; //Put c for this cell
-
-                            if(solve(board))
-                                return true; //If it's the solution return true
-                            else
-                                board[i][j] = '.'; //Otherwise go back
+                            if(solve(board)) return true; //If it's the solution return true
+                            else board[i][j] = '.'; //Otherwise go back
                         }
                     }
-
                     return false;
                 }
             }
@@ -553,7 +550,7 @@ public class Solution {
         return true;
     }
 
-    private boolean isValid(char[][] board, int row, int col, char c){
+    public boolean isValid(char[][] board, int row, int col, char c){
         for(int i = 0; i < 9; i++) {
             if(board[i][col] == c) return false; //check row
             if(board[row][i] == c) return false; //check column
@@ -629,17 +626,16 @@ Note: In a path, no cell can be visited more than one time. If the source cell i
 
 _Input:_
 N = 4
-`m[][ ]= {{1, 0, 0, 0},
-         {1, 1, 0, 1}, 
-         {1, 1, 0, 0},
-         {0, 1, 1, 1}}`
+`m[][] = {
+            {1, 0, 0, 0},
+            {1, 1, 0, 1}, 
+            {1, 1, 0, 0},
+            {0, 1, 1, 1}
+         }`
 _Output:_ DDRDRR DRDDRR
 
 **Explanation:**
-The rat can reach the destination at
-(3, 3) from (0, 0) by two paths - DRDDRR
-and DDRDRR, when printed in sorted order
-we get DDRDRR DRDDRR.
+The rat can reach the destination at (3, 3) from (0, 0) by two paths - DRDDRR and DDRDRR, when printed in sorted order we get DDRDRR DRDDRR.
 
 ```java
 
@@ -685,7 +681,7 @@ class Solution {
             vis[row][col] = 0;
         }
 
-        // down
+        // upward
         if (row-1 >= 0 && m[row-1][col] == 1 && vis[row-1][col] == 0) {
             vis[row][col] = 1;
             helperFunc(row-1, col, path + "U", m, vis, n, result);
@@ -695,7 +691,7 @@ class Solution {
 }
 ```
 
-## 60. Permutation Sequence
+## 60. Kth Permutation Sequence
 
 The set `[1, 2, 3, ..., n]` contains a total of `n!` unique permutations.
 
@@ -755,4 +751,5 @@ class Solution {
         return result;
     }
 }
+
 ```

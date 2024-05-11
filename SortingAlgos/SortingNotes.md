@@ -14,6 +14,79 @@
 - avg case: `O(N²)`
 - best case: `O(N²)`
 
+### Selection sort
+
+- Select the min element and swap with the current element
+
+###### Time Complexity: `O(N²)`
+
+###### Space Complexity: `O(1)`
+
+```java
+
+import java.util.*;
+
+class Main {
+    public static void main(String[] args) {
+        int[] arr = {13, 46, 24, 52, 20, 9};
+
+        for (int i = 0; i < arr.length; i++) {
+            int minIndex = i;
+            for (int j = i; j < arr.length; j++) {
+                if (arr[minIndex] > arr[j]) {
+                    minIndex = j;
+                }
+            }
+            swap(arr, i, minIndex);
+        }
+
+        System.out.println(Arrays.toString(arr));
+    }
+
+    public static void swap(int[] arr, int i, int j) {
+        int temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
+}
+```
+
+### Insertion sort
+
+##### Time Complexity:
+
+- worst case: `O(N²)`
+- avg case: `O(N²)`
+- best case: `O(N)`
+
+```java
+
+
+import java.util.*;
+
+class Main {
+    public static void main(String[] args) {
+        int[] arr = {13, 46, 24, 52, 20, 9};
+
+        for (int i = 0; i < arr.length; i++) {
+            int j = i;
+            while (j > 0 && arr[j-1] > arr[j]) {
+                swap(arr, j , j-1);
+                j--;
+            }
+        }
+
+        System.out.println(Arrays.toString(arr));
+    }
+
+    public static void swap(int[] arr, int i, int j) {
+        int temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
+}
+```
+
 ### Merge sort:
 
 Merge sort is a divide and conquer algorithm, it divides the given array into two parts recursively until it reaches the single value. Upon reaching the single value it then merge them in a sorted manner.
@@ -36,6 +109,10 @@ public static void main(String[] args) {
     System.out.println(Arrays.toString(arr));
     // output: [2, 3, 3, 4, 5, 5, 6, 8, 8, 9]
 }
+
+
+
+
 
 // function calls itself recursively until it reaches single element
 static void mergeSort(int[] arr, int low, int high) {

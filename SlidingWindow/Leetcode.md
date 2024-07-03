@@ -63,6 +63,8 @@ class Solution{
 }
 ```
 
+---
+
 ### 1423. Maximum Points You Can Obtain from Cards
 
 There are several cards arranged in a row, and each card has an associated number of points. The points are given in the integer array `cardPoints`.
@@ -137,6 +139,8 @@ public class Solution {
 }
 ```
 
+---
+
 ### 3. Longest Substring Without Repeating Characters
 
 Given a string `s`, find the length of the longest substring without repeating characters. Problem [link](https://leetcode.com/problems/longest-substring-without-repeating-characters/description/).
@@ -209,6 +213,8 @@ class Solution {
     }
 }
 ```
+
+---
 
 ### 1004. Max Consecutive Ones III
 
@@ -283,6 +289,8 @@ public class Solution {
 }
 ```
 
+---
+
 ### 1358. Number of Substrings Containing All Three Characters
 
 #### Problem Statement
@@ -351,6 +359,8 @@ public class Solution {
 }
 ```
 
+---
+
 ### 424. Longest Repeating Character Replacement
 
 #### Problem Statement
@@ -412,6 +422,87 @@ public class Solution {
         // Test cases
         System.out.println(solution.characterReplacement("ABAB", 2)); // Output: 4
         System.out.println(solution.characterReplacement("AABABBA", 1)); // Output: 4
+    }
+}
+```
+
+---
+
+### 930. Binary Subarrays With Sum
+
+Given a binary array `nums` and an integer `goal`, return the number of non-empty subarrays with a sum equal to `goal`. Problem [link](https://leetcode.com/problems/binary-subarrays-with-sum/).
+
+#### Examples
+
+##### Example 1:
+
+**Input**: `nums = [1,0,1,0,1]`, `goal = 2`  
+**Output**: `4`  
+**Explanation**: The 4 subarrays are bolded and underlined below:
+
+```
+[1,0,1,0,1]
+[1,0,1,0,1]
+[1,0,1,0,1]
+[1,0,1,0,1]
+```
+
+##### Example 2:
+
+**Input**: `nums = [0,0,0,0,0]`, `goal = 0`  
+**Output**: `15`
+
+#### Constraints
+
+- `1 <= nums.length <= 3 * 10^4`
+- `nums[i]` is either `0` or `1`.
+- `0 <= goal <= nums.length`
+
+#### Solution
+
+```java
+class Solution {
+    public int numSubarraysWithSum(int[] nums, int goal) {
+        return atMost(nums, goal) - atMost(nums, goal - 1);
+    }
+
+    // Helper function to count subarrays with sum at most S
+    private int atMost(int[] nums, int goal) {
+        if (S < 0) return 0;
+        int left = 0, right = 0;
+        int sum = 0;
+        int count = 0;
+
+        // Traverse the array
+        while (right < nums.length) {
+            sum += nums[right];
+
+            // Adjust the window size if the sum exceeds goal
+            // goal <= sum
+            while (sum > goal) {
+                sum -= nums[left];
+                left++;
+            }
+
+            // All subarrays ending at 'right' with sum at most goal
+            count += right - left + 1;
+            right++;
+        }
+
+        return count;
+    }
+
+    public static void main(String[] args) {
+        Solution solution = new Solution();
+
+        // Test cases
+        int[] nums1 = {1, 0, 1, 0, 1};
+        int goal1 = 2;
+        System.out.println(solution.numSubarraysWithSum(nums1, goal1)); // Output: 4
+
+        int[] nums2 = {0, 0, 0, 0, 0};
+        int goal2 = 0;
+        System.out.println(solution.numSubarraysWithSum(nums2, goal2)); // Output: 15
     }
 }
 ```

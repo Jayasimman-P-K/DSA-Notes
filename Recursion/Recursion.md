@@ -54,6 +54,8 @@ class Solution {
 }
 ```
 
+---
+
 ## 70. Climbing Stairs
 
 You are climbing a staircase. It takes n steps to reach the top.
@@ -104,6 +106,8 @@ class Solution {
 }
 ```
 
+---
+
 ## 39. Combination Sum
 
 Given an array of distinct integers candidates and a target integer target, return a list of all unique combinations of candidates where the chosen numbers sum to target. You may return the combinations in any order.
@@ -142,32 +146,54 @@ _Output:_ `[]`
 - `1 <= target <= 40`
 
 ```java
-class Solution {
+import java.util.ArrayList;
+import java.util.List;
 
+public class Solution {
+
+    // This list will store the final result, which is a list of all possible combinations
     List<List<Integer>> result = new ArrayList<>();
+    // This list will store the current combination
     List<Integer> ds = new ArrayList<>();
 
+    // The main function that initiates the process and returns the result
     public List<List<Integer>> combinationSum(int[] input, int target) {
-        backTracking(input, target, 0);
-        return result;
+        backTracking(input, target, 0); // Start backtracking from index 0
+        return result; // Return the result containing all combinations
     }
 
+    // A helper function to perform the backtracking
     public void backTracking(int[] arr, int target, int start) {
+        // If the target becomes 0, a valid combination is found
         if (target == 0) {
-            result.add(new ArrayList<>(ds));
-            return;
+            result.add(new ArrayList<>(ds)); // Add a copy of the current combination to the result
+            return; // Exit the function as we've found a valid combination
         }
 
+        // Iterate over the array starting from the 'start' index
         for (int i = start; i < arr.length; i++) {
-            if(arr[i] <= target) {
-                ds.add(arr[i]);
+            // Only proceed if the current element is less than or equal to the target
+            if (arr[i] <= target) {
+                ds.add(arr[i]); // Add the current element to the current combination
+                // Recursively call backTracking with the updated target and current index
                 backTracking(arr, target - arr[i], i);
-                ds.remove(ds.size() - 1);
+                ds.remove(ds.size() - 1); // Remove the last element to backtrack
             }
         }
     }
+
+    // A main method to test the solution
+    public static void main(String[] args) {
+        Solution solution = new Solution();
+        int[] input = {2, 3, 6, 7};
+        int target = 7;
+        List<List<Integer>> combinations = solution.combinationSum(input, target);
+        System.out.println(combinations); // Output: [[2, 2, 3], [7]]
+    }
 }
 ```
+
+---
 
 ## 40. Combination Sum II
 
@@ -196,34 +222,57 @@ _Output:_
 - `1 <= target <= 30`
 
 ```java
-class Solution {
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
+public class Solution {
+
+    // This list will store the final result, which is a list of all possible combinations
     List<List<Integer>> result = new ArrayList<>();
+    // This list will store the current combination
     List<Integer> ds = new ArrayList<>();
 
+    // The main function that initiates the process and returns the result
     public List<List<Integer>> combinationSum2(int[] input, int target) {
-        Arrays.sort(input);
-        backTracking(input, target, 0);
-        return result;
+        Arrays.sort(input); // Sort the input array to handle duplicates
+        backTracking(input, target, 0); // Start backtracking from index 0
+        return result; // Return the result containing all combinations
     }
 
+    // A helper function to perform the backtracking
     public void backTracking(int[] arr, int target, int start) {
+        // If the target becomes 0, a valid combination is found
         if (target == 0) {
-            result.add(new ArrayList<>(ds));
-            return;
+            result.add(new ArrayList<>(ds)); // Add a copy of the current combination to the result
+            return; // Exit the function as we've found a valid combination
         }
 
+        // Iterate over the array starting from the 'start' index
         for (int i = start; i < arr.length; i++) {
-            if (i > start && arr[i] == arr[i-1]) continue;
-            if(arr[i] > target) return;
-            ds.add(arr[i]);
-            backTracking(arr, target - arr[i], i+1);
-            ds.remove(ds.size() - 1);
-
+            // Skip duplicates in the sorted array
+            if (i > start && arr[i] == arr[i - 1]) continue;
+            // If the current element is greater than the target, no need to proceed further
+            if (arr[i] > target) return;
+            ds.add(arr[i]); // Add the current element to the current combination
+            // Recursively call backTracking with the updated target and next index
+            backTracking(arr, target - arr[i], i + 1);
+            ds.remove(ds.size() - 1); // Remove the last element to backtrack
         }
+    }
+
+    // A main method to test the solution
+    public static void main(String[] args) {
+        Solution solution = new Solution();
+        int[] input = {10, 1, 2, 7, 6, 1, 5};
+        int target = 8;
+        List<List<Integer>> combinations = solution.combinationSum2(input, target);
+        System.out.println(combinations); // Output: [[1, 1, 6], [1, 2, 5], [1, 7], [2, 6]]
     }
 }
 ```
+
+---
 
 ## 78. Subsets
 
@@ -250,29 +299,47 @@ _Output:_ `[[],[0]]`
 - All the numbers of nums are unique.
 
 ```java
+import java.util.ArrayList;
+import java.util.List;
+
 class Solution {
 
+    // List to store the final result of all subsets
     List<List<Integer>> result = new ArrayList<>();
 
     public List<List<Integer>> subsets(int[] nums) {
+        // Start the backtracking process from index 0 with an empty list as the initial subset
         subSequence(0, nums, new ArrayList<>());
         return result;
     }
 
     void subSequence(int index, int[] nums, List<Integer> ds) {
-
+        // If index is out of bounds, add the current subset to the result list
         if (index >= nums.length) {
             result.add(new ArrayList<>(ds));
             return;
         }
 
+        // Include the current element in the subset
         ds.add(nums[index]);
+        // Recur with the next index and the current subset including the current element
         subSequence(index + 1, nums, ds);
+        // Backtrack by removing the last added element
         ds.remove(ds.size() - 1);
+        // Recur with the next index and the current subset excluding the current element
         subSequence(index + 1, nums, ds);
+    }
+
+    public static void main(String[] args) {
+        Solution sol = new Solution();
+        int[] nums = {1, 2, 3};
+        List<List<Integer>> subsets = sol.subsets(nums);
+        System.out.println(subsets); // output: [[],[1],[2],[1,2],[3],[1,3],[2,3],[1,2,3]]
     }
 }
 ```
+
+---
 
 ## 90. Subsets II
 
@@ -323,6 +390,8 @@ class Solution {
 }
 ```
 
+---
+
 ## 46. Permutations
 
 Given an array nums of distinct integers, return all the possible permutations. You can return the answer in any order. Leetcode [Link](https://leetcode.com/problems/permutations/description/).
@@ -349,17 +418,22 @@ _Output:_ `[[1]]`
 - All the integers of nums are unique.
 
 ```java
+import java.util.ArrayList;
+import java.util.List;
+
 class Solution {
 
+    // List to store the final result of all permutations
     List<List<Integer>> result = new ArrayList<>();
 
     public List<List<Integer>> permute(int[] nums) {
+        // Start the recursion process from index 0
         recursion(nums, 0);
         return result;
     }
 
     void recursion(int[] nums, int pointer) {
-
+        // Base case: If the pointer reaches the end of the array, add the current permutation to the result
         if (pointer == nums.length) {
             List<Integer> ds = new ArrayList<>();
             for (int i : nums) ds.add(i);
@@ -367,20 +441,35 @@ class Solution {
             return;
         }
 
-        for(int i = pointer; i < nums.length; i++) {
+        // Iterate through the array starting from the current pointer
+        for (int i = pointer; i < nums.length; i++) {
+            // Swap the current element with the element at the pointer
             swap(i, pointer, nums);
+            // Recur with the next pointer
             recursion(nums, pointer + 1);
+            // Backtrack by swapping the elements back to their original positions
             swap(i, pointer, nums);
         }
     }
 
+    // Helper method to swap elements at indices i and j in the array
     void swap(int i, int j, int[] arr) {
         int temp = arr[i];
         arr[i] = arr[j];
         arr[j] = temp;
     }
+
+    public static void main(String[] args) {
+        Solution sol = new Solution();
+        int[] nums = {1, 2, 3};
+        List<List<Integer>> permutations = sol.permute(nums);
+        System.out.println(permutations); // output: [[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
+    }
 }
+
 ```
+
+---
 
 ## 51. N-Queens
 
@@ -414,34 +503,50 @@ class Solution {
     List<List<String>> result = new ArrayList<>();
 
     public List<List<String>> solveNQueens(int n) {
+        // Initialize the chessboard with empty cells represented by '.'
         char[][] board = new char[n][n];
-        for (int i = 0; i < n; i++){
-            for (int j = 0; j < n; j++){
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
                 board[i][j] = '.';
             }
         }
 
-        int[] leftRow = new int[n];
-        int[] upperDiagonal = new int[2*n - 1];
-        int[] lowerDiagonal = new int[2*n - 1];
+        // Arrays to track if a row or diagonal is under attack
+        int[] leftRow = new int[n];            // To track rows
+        int[] upperDiagonal = new int[2 * n - 1]; // To track upper diagonals (top-left to bottom-right)
+        int[] lowerDiagonal = new int[2 * n - 1]; // To track lower diagonals (bottom-left to top-right)
 
+        // Start solving the N-Queens problem recursively
         solve(board, 0, leftRow, upperDiagonal, lowerDiagonal);
+
+        // Return all solutions found
         return result;
     }
 
+    // Recursive method to solve the N-Queens problem
     void solve(char[][] board, int col, int[] leftRow, int[] upperDiagonal, int[] lowerDiagonal) {
+        // If all queens are placed successfully, add the current configuration to result
         if (col == board.length) {
             result.add(build(board));
             return;
         }
 
+        // Try placing a queen in each row of the current column
         for (int row = 0; row < board.length; row++) {
+            // Check if the current position is safe from attacks
             if (leftRow[row] == 0 && lowerDiagonal[row + col] == 0 && upperDiagonal[board.length - 1 + col - row] == 0) {
+                // Place the queen
                 board[row][col] = 'Q';
+
+                // Mark the row and diagonals as under attack
                 leftRow[row] = 1;
                 lowerDiagonal[row + col] = 1;
                 upperDiagonal[board.length - 1 + col - row] = 1;
+
+                // Recursively solve for the next column
                 solve(board, col + 1, leftRow, upperDiagonal, lowerDiagonal);
+
+                // Backtrack: Remove the queen and marks
                 board[row][col] = '.';
                 leftRow[row] = 0;
                 lowerDiagonal[row + col] = 0;
@@ -450,15 +555,16 @@ class Solution {
         }
     }
 
+    // Utility method to build the solution format as a list of strings
     List<String> build(char[][] board) {
-        List<String> ans = new LinkedList<String>();
-        for (char[] i : board) {
-            String s = new String(i);
-            ans.add(s);
+        List<String> ans = new LinkedList<>();
+        for (char[] row : board) {
+            ans.add(new String(row));
         }
         return ans;
     }
 }
+
 ```
 
 ## 37. Sudoku Solver
@@ -523,41 +629,53 @@ _Output:_
 
 ```java
 
-
 public class Solution {
+
+    // Method to solve the Sudoku puzzle
     public void solveSudoku(char[][] board) {
-        if(board == null || board.length == 0) return;
-        solve(board);
+        if (board == null || board.length == 0) return; // If the board is invalid, return immediately
+        solve(board); // Start solving the board
     }
 
-    public boolean solve(char[][] board){
-        for(int i = 0; i < board.length; i++){
-            for(int j = 0; j < board[0].length; j++){
-                if(board[i][j] == '.'){
-                    for(char c = '1'; c <= '9'; c++){//trial. Try 1 through 9
-                        if(isValid(board, i, j, c)){
-                            board[i][j] = c; //Put c for this cell
-                            if(solve(board)) return true; //If it's the solution return true
-                            else board[i][j] = '.'; //Otherwise go back
+    // Recursive method to solve the board
+    public boolean solve(char[][] board) {
+        // Iterate over every cell in the board
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[0].length; j++) {
+                // If the cell is empty (represented by '.')
+                if (board[i][j] == '.') {
+                    // Try placing each number from '1' to '9'
+                    for (char c = '1'; c <= '9'; c++) {
+                        // Check if placing 'c' is valid in the current cell
+                        if (isValid(board, i, j, c)) {
+                            board[i][j] = c; // Place 'c' in the cell
+                            // Recursively attempt to solve the rest of the board
+                            if (solve(board)) return true; // If solution is found, return true
+                            else board[i][j] = '.'; // If not, reset the cell and try the next number
                         }
                     }
-                    return false;
+                    return false; // If no number is valid, return false (trigger backtracking)
                 }
             }
         }
-        return true;
+        return true; // If all cells are filled correctly, return true
     }
 
-    public boolean isValid(char[][] board, int row, int col, char c){
-        for(int i = 0; i < 9; i++) {
-            if(board[i][col] == c) return false; //check row
-            if(board[row][i] == c) return false; //check column
-            if(board[3 * (row / 3) + i / 3][3 * (col / 3) + i % 3] == c) return false; //check 3*3 block
+    // Method to check if placing 'c' in board[row][col] is valid
+    public boolean isValid(char[][] board, int row, int col, char c) {
+        // Check if 'c' is already in the current row or column
+        for (int i = 0; i < 9; i++) {
+            if (board[i][col] == c) return false; // Check row
+            if (board[row][i] == c) return false; // Check column
+            // Check the 3x3 sub-grid
+            if (board[3 * (row / 3) + i / 3][3 * (col / 3) + i % 3] == c) return false;
         }
-        return true;
+        return true; // If 'c' is not found in the row, column, or sub-grid, it is valid
     }
 }
 ```
+
+---
 
 ## 131. Palindrome Partitioning
 
@@ -624,12 +742,16 @@ Note: In a path, no cell can be visited more than one time. If the source cell i
 
 _Input:_
 N = 4
-`m[][] = {
+
+```
+m[][] = {
             {1, 0, 0, 0},
-            {1, 1, 0, 1}, 
+            {1, 1, 0, 1},
             {1, 1, 0, 0},
             {0, 1, 1, 1}
-         }`
+            }
+```
+
 _Output:_ DDRDRR DRDDRR
 
 **Explanation:**
@@ -639,55 +761,60 @@ The rat can reach the destination at (3, 3) from (0, 0) by two paths - DRDDRR an
 
 class Solution {
 
+    // Main function to find all paths from top-left to bottom-right in the maze
     public static ArrayList<String> findPath(int[][] m, int n) {
-
+        // Initialize a visited array to keep track of visited cells
         int[][] visited = new int[n][n];
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                visited[i][j] = 0;
-            }
-        }
+
+        // List to store all valid paths
         ArrayList<String> result = new ArrayList<>();
-        if (m[0][0] == 1) helperFunc(0, 0, "", m, visited, n, result);
-        return result;
+
+        // Start from (0,0) if the starting cell is not blocked
+        if (m[0][0] == 1) {
+            helperFunc(0, 0, "", m, visited, n, result);
+        }
+
+        return result; // Return all the paths found
     }
 
+    // Helper function to perform the recursive backtracking
     static void helperFunc(int row, int col, String path, int[][] m, int[][] vis, int n, ArrayList<String> result) {
-        if (row == n-1 && col == n-1) {
+        // If the destination is reached, add the path to the result
+        if (row == n - 1 && col == n - 1) {
             result.add(path);
             return;
         }
 
-        // downward
-        if (row+1 < n && m[row+1][col] == 1 && vis[row+1][col] == 0) {
-            vis[row][col] = 1;
-            helperFunc(row+1, col, path + "D", m, vis, n, result);
-            vis[row][col] = 0;
+        // Mark the current cell as visited
+        vis[row][col] = 1;
+
+        // Move downward if possible
+        if (row + 1 < n && m[row + 1][col] == 1 && vis[row + 1][col] == 0) {
+            helperFunc(row + 1, col, path + "D", m, vis, n, result);
         }
 
-        // left
-        if (col-1 >= 0 && m[row][col-1] == 1 && vis[row][col-1] == 0) {
-            vis[row][col] = 1;
-            helperFunc(row, col-1, path + "L", m, vis, n, result);
-            vis[row][col] = 0;
+        // Move left if possible
+        if (col - 1 >= 0 && m[row][col - 1] == 1 && vis[row][col - 1] == 0) {
+            helperFunc(row, col - 1, path + "L", m, vis, n, result);
         }
 
-        // right
-        if (col+1 < n && m[row][col+1] == 1 && vis[row][col+1] == 0) {
-            vis[row][col] = 1;
-            helperFunc(row, col+1, path + "R", m, vis, n, result);
-            vis[row][col] = 0;
+        // Move right if possible
+        if (col + 1 < n && m[row][col + 1] == 1 && vis[row][col + 1] == 0) {
+            helperFunc(row, col + 1, path + "R", m, vis, n, result);
         }
 
-        // upward
-        if (row-1 >= 0 && m[row-1][col] == 1 && vis[row-1][col] == 0) {
-            vis[row][col] = 1;
-            helperFunc(row-1, col, path + "U", m, vis, n, result);
-            vis[row][col] = 0;
+        // Move upward if possible
+        if (row - 1 >= 0 && m[row - 1][col] == 1 && vis[row - 1][col] == 0) {
+            helperFunc(row - 1, col, path + "U", m, vis, n, result);
         }
+
+        // Unmark the current cell (backtrack)
+        vis[row][col] = 0;
     }
 }
 ```
+
+---
 
 ## 60. Kth Permutation Sequence
 

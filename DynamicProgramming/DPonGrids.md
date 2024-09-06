@@ -625,6 +625,8 @@ The test cases are generated so that the answer will be less than or equal to `2
 
 ### Example 1:
 
+![img](https://assets.leetcode.com/uploads/2020/11/04/robot1.jpg)
+
 ```
 Input: obstacleGrid = [[0,0,0],[0,1,0],[0,0,0]]
 Output: 2
@@ -635,6 +637,8 @@ There are two ways to reach the bottom-right corner:
 ```
 
 ### Example 2:
+
+![img2](https://assets.leetcode.com/uploads/2020/11/04/robot2.jpg)
 
 ```
 Input: obstacleGrid = [[0,1],[0,0]]
@@ -778,5 +782,487 @@ class Solution {
    - The value at the bottom-right corner `dp[m-1][n-1]` gives the total number of unique paths from the start to the destination, avoiding obstacles.
 
 - This solution is efficient with a time complexity of \(O(m \times n)\) and space complexity of \(O(m \times n)\).
+
+---
+
+Here is the detailed solution for the **"Minimum Path Sum"** problem, including both **Dynamic Programming (Tabulation)** and **Recursive (with Memoization)** approaches. Each solution is provided with comprehensive explanations through comments and accompanying descriptions.
+
+---
+
+## Problem: Minimum Path Sum (Leetcode 64)
+
+**Description:**
+Given an `m x n` grid filled with non-negative numbers, find a path from the **top-left** to the **bottom-right** corner, which minimizes the sum of all numbers along its path.
+
+**Constraints:**
+
+- You can only move either **down** or **right** at any point in time.
+- `m == grid.length`
+- `n == grid[i].length`
+- `1 <= m, n <= 200`
+- `0 <= grid[i][j] <= 200`
+
+**Examples:**
+
+**Example 1:**
+![img](https://assets.leetcode.com/uploads/2020/11/05/minpath.jpg)
+
+```
+Input: grid = [[1,3,1],
+               [1,5,1],
+               [4,2,1]]
+Output: 7
+Explanation: The path 1 → 3 → 1 → 1 → 1 minimizes the sum.
+```
+
+**Example 2:**
+
+```
+Input: grid = [[1,2,3],
+               [4,5,6]]
+Output: 12
+```
+
+### Solution 1: Recursive Approach with Memoization
+
+### Approach:
+
+1. **Recursive Function:**
+
+   - Define a recursive function `minPath(i, j)` that returns the minimum path sum to reach cell `(i, j)`.
+
+2. **Base Cases:**
+
+   - If `i == 0` and `j == 0`, return `grid[0][0]` as it's the starting point.
+   - If `i < 0` or `j < 0`, return a large number (e.g., `Integer.MAX_VALUE`) to indicate an invalid path.
+
+3. **Memoization:**
+
+   - Use a 2D array `memo` to store the results of subproblems.
+   - If `memo[i][j]` is already computed, return its value to avoid redundant calculations.
+
+4. **Recursive Calculation:**
+
+   - The minimum path sum to reach `(i, j)` is `grid[i][j]` plus the minimum of `minPath(i-1, j)` and `minPath(i, j-1)`.
+
+5. **Result:**
+   - Call `minPath(m - 1, n - 1)` to get the minimum path sum to the bottom-right corner.
+
+### Code:
+
+```java
+class Solution {
+    public int minPathSum(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+
+        // Initialize memoization array with -1
+        int[][] memo = new int[m][n];
+        for (int[] row : memo) {
+            Arrays.fill(row, -1);
+        }
+
+        // Start recursion from bottom-right corner
+        return minPath(grid, m - 1, n - 1, memo);
+    }
+
+    private int minPath(int[][] grid, int i, int j, int[][] memo) {
+        // Check for boundaries
+        if (i < 0 || j < 0) {
+            return Integer.MAX_VALUE;
+        }
+
+        // Base case: starting point
+        if (i == 0 && j == 0) {
+            return grid[0][0];
+        }
+
+        // Return already computed result
+        if (memo[i][j] != -1) {
+            return memo[i][j];
+        }
+
+        // Recursive calls to top and left cells
+        int up = minPath(grid, i - 1, j, memo);
+        int left = minPath(grid, i, j - 1, memo);
+
+        // Calculate minimum path sum for current cell
+        memo[i][j] = grid[i][j] + Math.min(up, left);
+
+        return memo[i][j];
+    }
+}
+```
+
+### Explanation of Code:
+
+1. **Memoization Initialization:**
+
+   - We initialize a 2D array `memo` with `-1` to indicate uncomputed cells.
+
+2. **Recursive Function `minPath`:**
+
+   - **Boundary Conditions:**
+     - If `i` or `j` is less than `0`, we return `Integer.MAX_VALUE` to ensure that invalid paths are not considered.
+   - **Base Case:**
+     - When we reach the starting cell `(0, 0)`, we return its value `grid[0][0]`.
+   - **Memoization Check:**
+     - Before computing, we check if `memo[i][j]` is already computed to avoid redundant calculations.
+   - **Recursive Calls:**
+     - We compute the minimum path sums from the cell above `(i - 1, j)` and the cell to the left `(i, j - 1)`.
+   - **Current Cell Computation:**
+     - The minimum path sum for the current cell is its value plus the minimum of the two previous cells.
+   - **Storing Result:**
+     - We store the computed value in `memo[i][j]` and return it.
+
+3. **Result:**
+   - The initial call `minPath(grid, m - 1, n - 1, memo)` computes and returns the minimum path sum to reach the bottom-right corner.
+
+### Complexity Analysis:
+
+- **Time Complexity:**
+  - **O(m × n)**, because each cell's result is computed only once due to memoization.
+- **Space Complexity:**
+  - **O(m × n)** for the memoization array.
+  - **O(m + n)** for the recursion stack depth (since the maximum depth is `m + n`).
+
+### Solution 2: Tabulation Approach with Memoization
+
+###
+
+```java
+class Solution {
+    public int minPathSum(int[][] grid) {
+        int m = grid.length;    // Number of rows in the grid
+        int n = grid[0].length; // Number of columns in the grid
+
+        // Initialize the DP array with -1 (though this step is not strictly necessary in tabulation)
+        int[][] dp = new int[m][n];
+        for (int[] row : dp) {
+            Arrays.fill(row, -1);
+        }
+
+        // Iterate through each cell in the grid
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                // Base case: starting point at the top-left corner
+                if (i == 0 && j == 0) {
+                    dp[i][j] = grid[0][0];
+                } else {
+                    // Initialize variables to store the minimum path sum from the top and left cells
+                    int up = i > 0 ? dp[i-1][j] : Integer.MAX_VALUE;  // If moving from the top is possible
+                    int left = j > 0 ? dp[i][j-1] : Integer.MAX_VALUE; // If moving from the left is possible
+
+                    // Calculate the minimum path sum to the current cell
+                    dp[i][j] = grid[i][j] + Math.min(up, left);
+                }
+            }
+        }
+
+        // The bottom-right corner will contain the minimum path sum for the entire grid
+        return dp[m-1][n-1];
+    }
+}
+```
+
+### Explanation of the Code:
+
+1. **Grid Dimensions:**
+
+   - `m` and `n` are the dimensions of the grid, representing the number of rows and columns, respectively.
+
+2. **DP Array Initialization:**
+
+   - A 2D array `dp` of the same size as `grid` is initialized. While the grid is filled with `-1`, this step is generally used for memoization but is not necessary in a pure tabulation approach since each cell is filled during the iteration.
+
+3. **Iteration through the Grid:**
+
+   - We iterate over each cell `(i, j)` in the grid.
+   - If the cell is the top-left corner `(i == 0 && j == 0)`, it is initialized with the value of `grid[0][0]`.
+   - For other cells, the minimum path sum to reach the cell is calculated based on the minimum of the top cell (`dp[i-1][j]`) and the left cell (`dp[i][j-1]`), plus the current cell's value `grid[i][j]`.
+
+4. **Boundary Conditions:**
+
+   - If the cell is at the top row (`i == 0`), it can only be reached from the left.
+   - If the cell is at the first column (`j == 0`), it can only be reached from the top.
+   - If moving from either direction is not possible (out of bounds), we use `Integer.MAX_VALUE` to ensure that path is not considered.
+
+5. **Final Result:**
+   - The bottom-right corner `dp[m-1][n-1]` will contain the minimum path sum from the top-left corner to the bottom-right corner.
+
+### Key Points:
+
+- The time complexity is **O(m × n)** since we traverse every cell in the grid once.
+- The space complexity is **O(m × n)** due to the additional DP array.
+
+## Problem: Triangle (Leetcode 120)
+
+**Problem Description:**
+
+Given a triangle array, return the minimum path sum from top to bottom. For each step, you may move to an adjacent number of the row below. More formally, if you are on index `i` on the current row, you may move to either index `i` or index `i + 1` on the next row.
+
+**Examples:**
+
+- **Example 1:**
+
+  - Input: `triangle = [[2],[3,4],[6,5,7],[4,1,8,3]]`
+  - Output: `11`
+  - Explanation: The triangle looks like:
+    ```
+       2
+      3 4
+     6 5 7
+    4 1 8 3
+    ```
+    The minimum path sum from top to bottom is `2 + 3 + 5 + 1 = 11`.
+
+- **Example 2:**
+  - Input: `triangle = [[-10]]`
+  - Output: `-10`
+
+**Constraints:**
+
+- `1 <= triangle.length <= 200`
+- `triangle[0].length == 1`
+- `triangle[i].length == triangle[i - 1].length + 1`
+- `-10^4 <= triangle[i][j] <= 10^4`
+
+---
+
+### Recursive Approach with Memoization
+
+```java
+class Solution {
+    public int minimumTotal(List<List<Integer>> triangle) {
+        int n = triangle.size();  // Get the size of the triangle
+
+        // Initialize memoization table with -1
+        int[][] dp = new int[n][n];
+        for (int[] i : dp) {
+            Arrays.fill(i, -1);
+        }
+
+        // Start from the top of the triangle (index 0, 0)
+        return minimumPath(0, 0, dp, triangle);
+    }
+
+    public int minimumPath(int i, int j, int[][] dp, List<List<Integer>> triangle) {
+        int n = triangle.size();
+
+        // Base case: if we are at the last row, return the value at that position
+        if (i == n-1) return triangle.get(i).get(j);
+
+        // Check if the result is already computed
+        if (dp[i][j] != -1) return dp[i][j];
+
+        // Calculate the minimum path sum of the current position
+        int down = minimumPath(i+1, j, dp, triangle);  // Move to the same index in the next row
+        int diagonal = minimumPath(i+1, j+1, dp, triangle);  // Move to the adjacent index in the next row
+
+        // Store and return the result
+        return dp[i][j] = triangle.get(i).get(j) + Math.min(down, diagonal);
+    }
+}
+```
+
+### Tabulation Approach
+
+```java
+class Solution {
+    public int minimumTotal(List<List<Integer>> triangle) {
+        int n = triangle.size();  // Get the size of the triangle
+
+        // Initialize DP table
+        int[][] dp = new int[n][n];
+
+        // Base case: Fill the last row in DP table
+        for (int j = 0; j < n; j++) {
+            dp[n-1][j] = triangle.get(n-1).get(j);
+        }
+
+        // Build the DP table from bottom to top
+        for (int i = n-2; i >= 0; i--) {
+            for (int j = i; j >= 0; j--) {
+                int down = dp[i+1][j];  // Value directly below
+                int diagonal = dp[i+1][j+1];  // Value diagonally below
+                dp[i][j] = triangle.get(i).get(j) + Math.min(down, diagonal);  // Current cell value + min of down and diagonal
+            }
+        }
+
+        // Return the result from the top of the triangle
+        return dp[0][0];
+    }
+}
+```
+
+### Explanation:
+
+- **Recursive Approach with Memoization:**
+
+  - We start from the top of the triangle and recursively calculate the minimum path sum by moving downwards.
+  - We use a memoization table (`dp`) to store intermediate results to avoid redundant calculations.
+
+- **Tabulation Approach:**
+  - We fill a DP table starting from the bottom of the triangle.
+  - We calculate the minimum path sum for each cell based on the minimum values from the row directly below.
+  - Finally, the top cell (`dp[0][0]`) contains the minimum path sum for the entire triangle.
+
+## Problem: Minimum Falling Path Sum (Leetcode 931)
+
+**Problem Description:**
+
+Given an `n x n` array of integers `matrix`, return the minimum sum of any falling path through the matrix.
+
+A falling path starts at any element in the first row and chooses the element in the next row that is either directly below or diagonally left/right. Specifically, the next element from position `(row, col)` will be `(row + 1, col - 1)`, `(row + 1, col)`, or `(row + 1, col + 1)`.
+
+**Examples:**
+
+- **Example 1:**
+  ![img1](https://assets.leetcode.com/uploads/2021/11/03/failing1-grid.jpg)
+
+  - Input: `matrix = [[2,1,3],[6,5,4],[7,8,9]]`
+  - Output: `13`
+  - Explanation: There are two falling paths with a minimum sum as shown.
+
+- **Example 2:**
+  ![img2](https://assets.leetcode.com/uploads/2021/11/03/failing2-grid.jpg)
+  - Input: `matrix = [[-19,57],[-40,-5]]`
+  - Output: `-59`
+  - Explanation: The falling path with a minimum sum is shown.
+
+**Constraints:**
+
+- `n == matrix.length == matrix[i].length`
+- `1 <= n <= 100`
+- `-100 <= matrix[i][j] <= 100`
+
+### Recursive Approach with Memoization
+
+```java
+class Solution {
+    public int minFallingPathSum(int[][] matrix) {
+        int n = matrix.length;
+        int m = matrix[0].length;
+
+        // Initialize memoization array with -1
+        int[][] memo = new int[n][m];
+        for (int[] i : memo) {
+            Arrays.fill(i, -1);
+        }
+
+        int minimumSum = Integer.MAX_VALUE;
+        // Try to find the minimum path sum starting from each element in the last row
+        for (int j = 0; j < m; j++) {
+            minimumSum = Math.min(minimumSum, minFallingPath(n-1, j, memo, matrix));
+        }
+
+        return minimumSum;
+    }
+
+    public int minFallingPath(int i, int j, int[][] memo, int[][] matrix) {
+        // Handle out-of-bound indices
+        if (j < 0 || j >= matrix[0].length) return Integer.MAX_VALUE;
+
+        // Base case: if we are at the first row, return the value at that position
+        if (i == 0) return matrix[0][j];
+
+        // Check if the result is already computed
+        if (memo[i][j] != -1) return memo[i][j];
+
+        // Compute the minimum falling path sum recursively
+        int down = minFallingPath(i-1, j, memo, matrix);
+        int leftDiagonal = minFallingPath(i-1, j-1, memo, matrix);
+        int rightDiagonal = minFallingPath(i-1, j+1, memo, matrix);
+
+        // Store and return the result
+        return memo[i][j] = matrix[i][j] + Math.min(down, Math.min(leftDiagonal, rightDiagonal));
+    }
+}
+```
+
+### Tabulation Approach
+
+```java
+class Solution {
+    public int minFallingPathSum(int[][] matrix) {
+        int n = matrix.length;
+        int m = matrix[0].length;
+
+        // Initialize DP table
+        int[][] dp = new int[n][m];
+
+        // Base case: Copy the first row as the starting point
+        for (int j = 0; j < m; j++) {
+            dp[0][j] = matrix[0][j];
+        }
+
+        // Build the DP table from top to bottom
+        for (int i = 1; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                int up = dp[i-1][j];
+                int leftDiagonal = j > 0 ? dp[i-1][j-1] : Integer.MAX_VALUE;
+                int rightDiagonal = j < m-1 ? dp[i-1][j+1] : Integer.MAX_VALUE;
+                dp[i][j] = matrix[i][j] + Math.min(up, Math.min(leftDiagonal, rightDiagonal));
+            }
+        }
+
+        // Find the minimum value in the last row
+        int minimumSum = dp[n-1][0];
+        for (int j = 1; j < m; j++) {
+            minimumSum = Math.min(minimumSum, dp[n-1][j]);
+        }
+        return minimumSum;
+    }
+}
+```
+
+### Tabulation Approach with Space Optimization
+
+```java
+class Solution {
+    public int minFallingPathSum(int[][] matrix) {
+        int n = matrix.length;
+        int m = matrix[0].length;
+
+        // Use a 1D array to save space, representing the previous row's DP values
+        int[] prev = new int[m];
+        for (int j = 0; j < m; j++) {
+            prev[j] = matrix[0][j];
+        }
+
+        // Iterate through the matrix row by row
+        for (int i = 1; i < n; i++) {
+            int[] curr = new int[m];
+            for (int j = 0; j < m; j++) {
+                int up = prev[j];
+                int leftDiagonal = j > 0 ? prev[j-1] : Integer.MAX_VALUE;
+                int rightDiagonal = j < m-1 ? prev[j+1] : Integer.MAX_VALUE;
+                curr[j] = matrix[i][j] + Math.min(up, Math.min(leftDiagonal, rightDiagonal));
+            }
+            prev = curr;
+        }
+
+        // Find the minimum value in the last row
+        int minimumSum = prev[0];
+        for (int j = 1; j < m; j++) {
+            minimumSum = Math.min(minimumSum, prev[j]);
+        }
+        return minimumSum;
+    }
+}
+```
+
+### Explanation:
+
+- **Recursive Approach with Memoization:**
+
+  - This approach uses recursion to explore all possible falling paths, storing intermediate results in a memoization table to avoid redundant calculations.
+
+- **Tabulation Approach:**
+
+  - This approach builds a DP table from top to bottom, where each cell contains the minimum falling path sum that can be obtained to reach that cell.
+
+- **Tabulation with Space Optimization:**
+  - Instead of maintaining a full 2D DP table, this approach uses a 1D array to store the minimum path sums of the previous row, thus reducing space complexity.
 
 ---

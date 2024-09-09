@@ -1,5 +1,3 @@
-package Stacks;
-
 import java.util.*;
 
 public class StackNotes {

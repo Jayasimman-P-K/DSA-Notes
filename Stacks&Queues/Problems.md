@@ -902,3 +902,106 @@ class Solution {
 - **O(m)** for the stack used in the largest rectangle area calculation.
 
 ---
+
+## Leetcode: 239. Sliding Window Maximum
+
+You are given an array of integers `nums`, and a sliding window of size `k` that moves from the very left of the array to the right. At each step, you can only see the `k` numbers in the window. Your task is to return the maximum of each sliding window.
+
+### Example 1:
+
+```text
+Input: nums = [1, 3, -1, -3, 5, 3, 6, 7], k = 3
+Output: [3, 3, 5, 5, 6, 7]
+Explanation:
+Window position                Max
+---------------               -----
+[1  3  -1] -3  5  3  6  7       3
+ 1 [3  -1  -3] 5  3  6  7       3
+ 1  3 [-1  -3  5] 3  6  7       5
+ 1  3  -1 [-3  5  3] 6  7       5
+ 1  3  -1  -3 [5  3  6] 7       6
+ 1  3  -1  -3  5 [3  6  7]      7
+```
+
+### Example 2:
+
+```text
+Input: nums = [1], k = 1
+Output: [1]
+```
+
+### Constraints:
+- `1 <= nums.length <= 105`
+- `-104 <= nums[i] <= 104`
+- `1 <= k <= nums.length`
+
+---
+
+### Approach:
+
+We can solve this problem efficiently using a **deque (double-ended queue)** to keep track of the indices of elements in the sliding window. The key idea is to maintain a deque that stores elements in decreasing order of their values, where:
+- The front of the deque will always store the index of the maximum element for the current window.
+- When we move the window to the right, we remove elements from the deque that are out of bounds and ensure that only relevant elements stay in the deque.
+
+#### Steps:
+1. Traverse the array from left to right.
+2. For each element, remove indices from the front of the deque that are outside the current window.
+3. Remove elements from the back of the deque while the current element is larger than or equal to the element corresponding to the index stored at the back of the deque. This ensures that the deque stores elements in decreasing order.
+4. Add the current element's index to the deque.
+5. Once we have processed the first `k` elements, add the value corresponding to the index at the front of the deque (the largest element in the current window) to the result array.
+
+### Solution Code:
+
+```java
+import java.util.Deque;
+import java.util.ArrayDeque;
+
+class Solution {
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        int n = nums.length;
+        int[] result = new int[n - k + 1];  // Result array to store the maximums for each window
+        Deque<Integer> deque = new ArrayDeque<>();  // Deque to store indices of array elements
+
+        for (int i = 0; i < n; i++) {
+            // Remove elements from the front of the deque if they are outside the current window
+            if (!deque.isEmpty() && deque.peekFirst() < i - k + 1) {
+                deque.removeFirst();
+            }
+
+            // Remove elements from the back of the deque while the current element is greater than or equal
+            // to the element at the back of the deque
+            while (!deque.isEmpty() && nums[deque.peekLast()] <= nums[i]) {
+                deque.removeLast();
+            }
+
+            // Add the current element's index to the deque
+            deque.addLast(i);
+
+            // Add the maximum element of the current window to the result array once we have processed at least k elements
+            if (i >= k - 1) {
+                result[i - k + 1] = nums[deque.peekFirst()];
+            }
+        }
+
+        return result;
+    }
+}
+```
+
+### Explanation:
+
+- **Deque Operations:**
+  - The `deque` stores indices of elements in such a way that the values of these elements are in decreasing order. This ensures that the maximum element of the window is always at the front of the deque.
+  - We remove indices from the back of the deque if the current element is greater than or equal to the element at the back of the deque, as these elements will no longer be relevant for future windows.
+  - If the element at the front of the deque is outside the current window, it is removed.
+
+- **Result Construction:**
+  - Once we have processed at least `k` elements (i.e., when `i >= k - 1`), we take the value of the element at the front of the deque (which is the maximum element of the current window) and add it to the result array.
+
+### Time Complexity:
+- Each element is added and removed from the deque at most once, so the time complexity is **O(n)** where `n` is the number of elements in the array.
+
+### Space Complexity:
+- The space complexity is **O(k)**, as the deque will store at most `k` elements at any given time (the size of the sliding window).
+
+---
